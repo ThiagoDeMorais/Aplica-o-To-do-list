@@ -1,31 +1,31 @@
-const toDosContainer = document.querySelector('.todos-container');
-const formAddTodo = document.querySelector('.form-add-todo');
-const formSearch = document.querySelector('.form-search');
+const toDosContainer = document.querySelector(".todos-container");
+const formAddTodo = document.querySelector(".form-add-todo");
+const formSearch = document.querySelector(".form-search");
 
-formAddTodo.addEventListener('submit', event => {
-    event.preventDefault();
-    const inputValue = event.target.add.value.trim();
-    if(inputValue !== ''){
-        toDosContainer.innerHTML += 
-        `<li class="list-group-item d-flex justify-content-between align-items-center">
-        <span>${inputValue}</span>
-        <i class="far fa-trash-alt delete"></i>
-      </li>`
-      event.target.reset();
-    }
-})
-
-toDosContainer.addEventListener("click", (event) => {
-  const clickedElement = event.target;
-  const classesOfclickedElement = Array.from(clickedElement.classList);
-  const haveDeleteClass = classesOfclickedElement.includes("delete");
-
-  if (haveDeleteClass) {
-    clickedElement.parentElement.remove();
+const addToDo = event => {
+  event.preventDefault();
+  const valueOfTheNewToDo = event.target.add.value.trim();
+  if (valueOfTheNewToDo !== "") {
+    toDosContainer.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center" data-to-do = ${valueOfTheNewToDo}>
+        <span>${valueOfTheNewToDo}</span>
+        <i class="far fa-trash-alt delete" data-remove = ${valueOfTheNewToDo}></i>
+      </li>`;
+    event.target.reset();
   }
-});
+}
 
-formSearch.addEventListener("input", (event) => {
+const removeToDo =  event => {
+  const clickedElement = event.target;
+  const dataRemove = clickedElement.dataset.remove
+  const isUndefined = String(dataRemove) === 'undefined';
+
+  if(!isUndefined){
+    const toDo = document.querySelector(`[data-to-do ="${dataRemove}"]`)
+    toDo.remove();
+  }
+}
+
+const searchToDos = event => {
   const toDos = Array.from(toDosContainer.children);
   const valueOfInput = event.target.value;
   const hiddenToDos = toDos.filter(
@@ -43,4 +43,9 @@ formSearch.addEventListener("input", (event) => {
     toDo.classList.remove("hidden");
     toDo.classList.add("d-flex");
   });
-});
+}
+
+formSearch.addEventListener("input", searchToDos);
+formAddTodo.addEventListener("submit", addToDo);
+toDosContainer.addEventListener("click", removeToDo);
+

@@ -1,17 +1,27 @@
+.black-text{
+  color: rgb(7, 6, 5);
+}
+
+.bg-gray{
+  background-color: rgb(203, 197, 191);
+}
+
 .container {
   max-width: 400px;
 }
 
 input[type=text],
 input[type=text]:focus {
-  color: #fff;
+  color: rgb(7, 6, 5);
   border: none;
-  background: rgba(0,0,0,0.2);
+  background: rgba(213,209,204);
   max-width: 400px;
 }
 
 .todos-container li {
-  background: #484E53;
+  color: rgb(7, 6, 5);
+  background: rgba(183, 177, 172)
+
 }
 
 .delete {
