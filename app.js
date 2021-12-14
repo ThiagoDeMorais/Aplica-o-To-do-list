@@ -27,13 +27,13 @@ const removeToDo =  event => {
 
 const searchToDos = event => {
   const toDos = Array.from(toDosContainer.children);
-  const valueOfInput = event.target.value;
+  const toDoEnteredByUser  = event.target.value;
   const hiddenToDos = toDos.filter(
     (toDo) =>
-      !toDo.textContent.toLowerCase().includes(valueOfInput.toLowerCase())
+      !toDo.textContent.toLowerCase().includes(toDoEnteredByUser.toLowerCase())
   );
   const visibleToDos = toDos.filter((toDo) =>
-    toDo.textContent.toLowerCase().includes(valueOfInput.toLowerCase())
+    toDo.textContent.toLowerCase().includes(toDoEnteredByUser.toLowerCase())
   );
   hiddenToDos.forEach((toDo) => {
     toDo.classList.remove("d-flex");
