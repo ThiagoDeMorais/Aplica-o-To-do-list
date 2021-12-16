@@ -16,33 +16,29 @@ const addToDo = event => {
 
 const removeToDo =  event => {
   const clickedElement = event.target;
-  const dataRemove = clickedElement.dataset.remove
-  const isUndefined = String(dataRemove) === 'undefined';
+  const clickedElementWasTrash = clickedElement.dataset.remove
 
-  if(!isUndefined){
-    const toDo = document.querySelector(`[data-to-do ="${dataRemove}"]`)
+  if(clickedElementWasTrash){
+    const toDo = document.querySelector(`[data-to-do ="${clickedElementWasTrash}"]`)
     toDo.remove();
   }
 }
 
+const filterToDos = toDos => {
+  toDos.forEach(({ todo, shouldBeVisible }) => {
+    todo.classList.add(shouldBeVisible ? "d-flex" : "hidden")
+    todo.classList.remove(shouldBeVisible ? "hidden" : "d-flex")
+  })
+}
+
 const searchToDos = event => {
-  const toDos = Array.from(toDosContainer.children);
-  const toDoEnteredByUser  = event.target.value;
-  const hiddenToDos = toDos.filter(
-    (toDo) =>
-      !toDo.textContent.toLowerCase().includes(toDoEnteredByUser.toLowerCase())
-  );
-  const visibleToDos = toDos.filter((toDo) =>
-    toDo.textContent.toLowerCase().includes(toDoEnteredByUser.toLowerCase())
-  );
-  hiddenToDos.forEach((toDo) => {
-    toDo.classList.remove("d-flex");
-    toDo.classList.add("hidden");
-  });
-  visibleToDos.forEach((toDo) => {
-    toDo.classList.remove("hidden");
-    toDo.classList.add("d-flex");
-  });
+  const toDos = Array.from(toDosContainer.children).map(todo => ({
+    todo,
+    shouldBeVisible: todo
+      .textContent.toLowerCase().includes(event.target.value.toLowerCase())
+  }))
+
+  filterToDos(toDos)
 }
 
 formSearch.addEventListener("input", searchToDos);
